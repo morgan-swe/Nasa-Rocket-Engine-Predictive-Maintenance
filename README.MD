@@ -6,15 +6,16 @@ This project builds a machine learning pipeline to predict the Remaining Useful 
 
 ### Results
 
-Three models were trained on 80 engines and evaluated on 20 held-out engines the models had never seen. Error is measured in operating cycles, against an average engine lifetime of roughly 206 cycles.
+Four models were trained on 80 engines and evaluated on 20 held-out engines the models had never seen. Error is measured in operating cycles, against an average engine lifetime of roughly 206 cycles.
 
 | Model | MAE (cycles) | RMSE (cycles) | R² |
 |---|---|---|---|
 | Linear Regression (baseline) | 14.17 | 17.65 | 0.821 |
 | Decision Tree | 11.63 | 17.11 | 0.832 |
-| **Random Forest** | **10.38** | **15.20** | **0.867** |
+| Random Forest | 10.29 | 15.34 | 0.865 |
+| **Random Forest (tuned)** | **10.23** | **15.23** | **0.867** |
 
-The Random Forest predicts remaining life to within about 10 cycles on average — roughly 5% of a typical engine's lifespan, and a 27% reduction in error over the linear baseline.
+The tuned Random Forest predicts remaining life to within about 10 cycles on average — roughly 5% of a typical engine's lifespan, and a 28% reduction in error over the linear baseline.
 
 ### What was built
 
@@ -37,6 +38,14 @@ The Random Forest predicts remaining life to within about 10 cycles on average �
 - Evaluated with MAE, RMSE, and R², plus prediction-vs-actual scatter and residual plots for each model
 - Serialized trained models to `models/` with joblib
 
+**Dashboard**
+- Power BI report over the model outputs: fleet health distribution by risk tier, predicted-vs-actual RUL, absolute-error breakdown, a critical-engine count, and a sortable per-engine table filtered by a risk-level slicer
+- Built as a PBIP project — report definition as JSON, semantic model as TMDL — so the dashboard is version-controlled and reviewable in git alongside the Python pipeline, rather than committed as an opaque `.pbix` binary
+
+<!-- Screenshot: save a PNG of the report to dashboard/images/ and uncomment
+![Predictive Maintenance Dashboard](dashboard/images/dashboard.png)
+-->
+
 ### Project structure
 
 ```
@@ -47,6 +56,8 @@ notebooks/        Analysis, versioned stage by stage
 models/           Serialized trained models (.pkl)
 reports/figures/  Saved plots
 src/              Data loading and config
+dashboard/data/    Model outputs published to the dashboard (CSV)
+dashboard/powerbi/ Power BI report and semantic model (PBIP)
 ```
 
 Notebooks:
@@ -56,12 +67,11 @@ Notebooks:
 
 ### Tech stack
 
-Python, pandas, NumPy, scikit-learn, matplotlib, seaborn, Jupyter
+Python, pandas, NumPy, scikit-learn, matplotlib, seaborn, Jupyter, Power BI (PBIP / TMDL)
 
 ### Status and next steps
 
 The analysis pipeline currently lives in the notebooks; `src/load_data.py` handles raw data loading and validation. Planned next:
 - Refactor the notebook logic into the `src/` modules (`features.py`, `preprocess.py`, `train.py`, `evaluate.py`) so the pipeline runs end to end from the command line
-- Feature importance analysis to identify which sensors drive the predictions
-- Hyperparameter tuning and cross-validation across engine groups
-- Streamlit dashboard for loading a saved model and viewing per-engine RUL predictions
+- Publish the Power BI report to the service so the dashboard is viewable without Power BI Desktop
+- Extend beyond FD001 to the C-MAPSS subsets with multiple operating conditions and fault modes
