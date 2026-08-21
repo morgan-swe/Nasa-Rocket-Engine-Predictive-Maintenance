@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "0e270e709d8b8dd6c439",
+  "position": {
+    "x": 818.901098901099,
+    "y": 259.12087912087912,
+    "z": 2,
+    "height": 280,
+    "width": 280
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Predictions"
+                        }
+                      },
+                      "Property": "Absolute_Error"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(Predictions.Absolute_Error)",
+              "nativeQueryRef": "Average Prediction Error",
+              "displayName": "Average Prediction Error"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Predictions"
+                      }
+                    },
+                    "Property": "Absolute_Error"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

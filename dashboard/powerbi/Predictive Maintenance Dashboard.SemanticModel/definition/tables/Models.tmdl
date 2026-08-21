@@ -1,0 +1,53 @@
+table Models
+	lineageTag: 2aa8e400-5491-4a1f-8040-b705db064b79
+
+	column Model
+		dataType: string
+		lineageTag: 1146fa20-6249-4f62-8058-547e70f6e4ec
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	column MAE
+		dataType: double
+		lineageTag: c76e38bb-cd3c-496c-a9d0-3c9f4ae01dde
+		summarizeBy: sum
+		sourceColumn: MAE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RMSE
+		dataType: double
+		lineageTag: 8644a6dc-f50d-4550-a989-578eafd43166
+		summarizeBy: sum
+		sourceColumn: RMSE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column R2
+		dataType: double
+		lineageTag: 33623159-2a72-45b4-b19d-cf35b0747fca
+		summarizeBy: sum
+		sourceColumn: R2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Models = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(Web.Contents("https://uofc-my.sharepoint.com/personal/morgan_lee2_ucalgary_ca/Documents/Apps/Microsoft Power Query/Uploaded Files/model_results.csv"), [Delimiter = ",", Columns = 4, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Model", type text}, {"MAE", type number}, {"RMSE", type number}, {"R2", type number}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

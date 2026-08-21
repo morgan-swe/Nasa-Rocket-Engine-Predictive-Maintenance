@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Predictive Maintenance Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "919278b9-d1a9-45a5-bdd4-84e9a9737003"
+  }
+}

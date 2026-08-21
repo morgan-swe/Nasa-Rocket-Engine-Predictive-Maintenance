@@ -1,0 +1,100 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "e6e4b70de4cb703de6fd",
+  "position": {
+    "x": 389.67032967032969,
+    "y": 557.80219780219784,
+    "z": 6,
+    "height": 280.87912087912088,
+    "width": 452.967032967033,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Predictions"
+                    }
+                  },
+                  "Property": "Predicted_RUL"
+                }
+              },
+              "queryRef": "Sum(Predictions.Predicted_RUL)",
+              "nativeQueryRef": "Predicted_RUL"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Predictions"
+                    }
+                  },
+                  "Property": "Actual_RUL"
+                }
+              },
+              "queryRef": "Sum(Predictions.Actual_RUL)",
+              "nativeQueryRef": "Actual_RUL"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Predictions"
+                        }
+                      },
+                      "Property": "Absolute_Error"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Predictions.Absolute_Error)",
+              "nativeQueryRef": "Sum of Absolute_Error"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Predictions"
+                    }
+                  },
+                  "Property": "Risk_Level"
+                }
+              },
+              "queryRef": "Predictions.Risk_Level",
+              "nativeQueryRef": "Risk_Level"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Engine Table'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

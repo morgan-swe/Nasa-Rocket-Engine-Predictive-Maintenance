@@ -1,0 +1,50 @@
+table 'Feature Importance'
+	lineageTag: 159dd45c-8d4d-4a11-ba5f-b9ad7339a83a
+
+	measure 'Critical Engines' =
+			
+			CALCULATE(
+			    COUNTROWS(Predictions),
+			    Predictions[Risk_Level] = "Critical"
+			)
+		formatString: 0
+		lineageTag: 5fa157f0-38e8-4d93-aa0d-757f2cffbb4d
+
+	column Feature
+		dataType: string
+		lineageTag: ab7e897e-70fe-4cc9-8262-be1702919196
+		summarizeBy: none
+		sourceColumn: Feature
+
+		annotation SummarizationSetBy = Automatic
+
+	column Importance
+		dataType: double
+		lineageTag: 5f7696ad-0abe-49c5-a198-acfb118b97e4
+		summarizeBy: sum
+		sourceColumn: Importance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Type
+		dataType: string
+		lineageTag: 60f89c50-b6d4-4b76-9945-e03005c90f96
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Feature Importance' = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(Web.Contents("https://uofc-my.sharepoint.com/personal/morgan_lee2_ucalgary_ca/Documents/Apps/Microsoft Power Query/Uploaded Files/feature_importance.csv"), [Delimiter = ",", Columns = 3, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Feature", type text}, {"Importance", type number}, {"Type", type text}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

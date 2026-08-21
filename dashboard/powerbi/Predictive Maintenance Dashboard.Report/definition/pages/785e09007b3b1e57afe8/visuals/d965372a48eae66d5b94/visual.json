@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "d965372a48eae66d5b94",
+  "position": {
+    "x": 389.67032967032969,
+    "y": 259.12087912087912,
+    "z": 1,
+    "height": 280,
+    "width": 280
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Predictions"
+                        }
+                      },
+                      "Property": "Predicted_RUL"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "Sum(Predictions.Predicted_RUL)",
+              "nativeQueryRef": "Engines Evaluated",
+              "displayName": "Engines Evaluated"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Predictions"
+                      }
+                    },
+                    "Property": "Predicted_RUL"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

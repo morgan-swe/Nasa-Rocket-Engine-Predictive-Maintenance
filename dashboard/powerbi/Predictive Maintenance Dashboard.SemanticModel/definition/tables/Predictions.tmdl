@@ -1,0 +1,62 @@
+table Predictions
+	lineageTag: 061d0a32-1653-48ba-8a23-d5c6ed559963
+
+	column Actual_RUL
+		dataType: int64
+		formatString: 0
+		lineageTag: 6970a342-cfaf-4ad3-96af-5ce92af28b58
+		summarizeBy: sum
+		sourceColumn: Actual_RUL
+
+		annotation SummarizationSetBy = Automatic
+
+	column Predicted_RUL
+		dataType: double
+		lineageTag: 01a2d1e7-470f-4c30-8e32-b51bd627cce0
+		summarizeBy: sum
+		sourceColumn: Predicted_RUL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Error
+		dataType: double
+		lineageTag: 1eb006f8-db62-40a5-9da3-80705f1b4e24
+		summarizeBy: sum
+		sourceColumn: Error
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Absolute_Error
+		dataType: double
+		lineageTag: 440afed7-be68-4b8a-97ae-9699ea690717
+		summarizeBy: sum
+		sourceColumn: Absolute_Error
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Risk_Level
+		dataType: string
+		lineageTag: 62d3afe3-5133-41a0-b52a-a5ba00af98ce
+		summarizeBy: none
+		sourceColumn: Risk_Level
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Predictions = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(Web.Contents("https://uofc-my.sharepoint.com/personal/morgan_lee2_ucalgary_ca/Documents/Apps/Microsoft Power Query/Uploaded Files/dashboard_predictions.csv"), [Delimiter = ",", Columns = 5, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Actual_RUL", Int64.Type}, {"Predicted_RUL", type number}, {"Error", type number}, {"Absolute_Error", type number}, {"Risk_Level", type text}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
